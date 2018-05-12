@@ -43,7 +43,17 @@ function setup_iteration
   if [ -d ${PROJECT_NAME} ]; 
   then
     cd ${PROJECT_NAME}
-    if git diff-index --quiet HEAD --; 
+    take_care_of_ongoing_changes
+  else
+    git clone ${GIT_REPOSITORY_URL}
+    cd ${PROJECT_NAME}
+  fi
+  git checkout "workshop-it${iteration_number}"
+}
+
+function take_care_of_ongoing_changes
+{
+  if git diff-index --quiet HEAD --; 
     then
       git status
     else
@@ -52,11 +62,6 @@ function setup_iteration
       git add .
       git commit -m "work in progress (automatic commit)"
     fi
-  else
-    git clone ${GIT_REPOSITORY_URL}
-    cd ${PROJECT_NAME}
-  fi
-  git checkout "workshop-it${iteration_number}"
 }
 
 main "$@"
