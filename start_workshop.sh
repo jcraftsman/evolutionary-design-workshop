@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+
+readonly PROJECT_NAME="pictures-analyzer"
+readonly GIT_REPOSITORY_URL="https://github.com/jcraftsman/${PROJECT_NAME}.git"
 readonly DEFAULT_ITERATION_NUMBER=1
+
 function main
 {
   check_command_exists "git" "Git command line tool is not installed in your computer. You need to install it."
@@ -36,8 +40,22 @@ function check_command_exists
 function setup_iteration
 {
   iteration_number=$1
-  git clone https://github.com/jcraftsman/pictures-analyzer.git
-  cd pictures-analyzer
+  if [ -d ${PROJECT_NAME} ]; 
+  then
+    cd ${PROJECT_NAME}
+    if git diff-index --quiet HEAD --; 
+    then
+      git status
+    else
+      echo "You have some unstaged changes."
+      echo "We will take care of adding your changes to the branch `git rev-parse --abbrev-ref HEAD`"
+      git add .
+      git commit -m "work in progress (automatic commit)"
+    fi
+  else
+    git clone ${GIT_REPOSITORY_URL}
+    cd ${PROJECT_NAME}
+  fi
   git checkout "workshop-it${iteration_number}"
 }
 
