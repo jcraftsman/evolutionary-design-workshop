@@ -11,8 +11,7 @@ function main
   rm -rf .git
   git clone https://github.com/jcraftsman/pictures-analyzer.git
   cd pictures-analyzer
-  git checkout aa9e687
-  git checkout -b workshop-it1
+  git checkout workshop-it1
   echo ""
   echo ""
   echo "****************************************************************************************"
