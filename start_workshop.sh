@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+readonly SCRIPT_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd );
 readonly PROJECT_NAME="pictures-analyzer"
+readonly PROJECT_DIR="${SCRIPT_DIR}/${PROJECT_NAME}"
 readonly GIT_REPOSITORY_URL="https://github.com/jcraftsman/${PROJECT_NAME}.git"
 readonly DEFAULT_ITERATION_NUMBER=1
 
@@ -40,13 +42,13 @@ function check_command_exists
 function setup_iteration
 {
   iteration_number=$1
-  if [ -d ${PROJECT_NAME} ]; 
+  if [ -d ${PROJECT_DIR} ]; 
   then
-    cd ${PROJECT_NAME}
+    cd ${PROJECT_DIR}
     take_care_of_ongoing_changes
   else
     git clone ${GIT_REPOSITORY_URL}
-    cd ${PROJECT_NAME}
+    cd ${PROJECT_DIR}
   fi
   git checkout "workshop-it${iteration_number}"
 }
@@ -58,7 +60,7 @@ function take_care_of_ongoing_changes
       git status
     else
       echo "You have some unstaged changes."
-      echo "We will take care of adding your changes to the branch `git rev-parse --abbrev-ref HEAD`"
+      echo "We will take care of adding your changes to the branch: `git rev-parse --abbrev-ref HEAD`"
       git add .
       git commit -m "work in progress (automatic commit)"
     fi
