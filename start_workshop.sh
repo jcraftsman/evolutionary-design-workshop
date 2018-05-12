@@ -56,14 +56,16 @@ function setup_iteration
 function take_care_of_ongoing_changes
 {
   if git diff-index --quiet HEAD --; 
-    then
-      git status
-    else
-      echo "You have some unstaged changes."
-      echo "We will take care of adding your changes to the branch: `git rev-parse --abbrev-ref HEAD`"
-      git add .
-      git commit -m "work in progress (automatic commit)"
-    fi
+  then
+    git status
+  else
+    echo ""
+    echo "/!\ You have some unstaged changes. /!\ "
+    echo "We will take care of adding your changes to the branch: `git rev-parse --abbrev-ref HEAD`"
+    git add .
+    git commit -m "work in progress (automatic commit)"
+    echo ""
+  fi
 }
 
 main "$@"
