@@ -133,6 +133,12 @@ After installation, the version of python3 on your computer should be higher tha
 python3 --version
 ```
 
+For the iteration 2, you will also need to install [tesseract](https://github.com/tesseract-ocr):
+
+```bash
+brew install tesseract
+```
+
 #### Ubuntu
 
 Here are the instructions to install python 3.6 from PPA:
@@ -147,3 +153,9 @@ pip3 install virtualenv
 ```
 
 For further details, take a look [here](https://www.rosehosting.com/blog/how-to-install-python-3-6-on-ubuntu-16-04).
+
+For the iteration 2, you will also need to install [tesseract](https://github.com/tesseract-ocr):
+
+```bash
+sudo apt-get install tesseract-ocr
+```
