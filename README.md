@@ -101,6 +101,7 @@ cd pictures-analyzer
   * Take a look at the implementation.
   * What do you like about this implementation?
   * What would you do better?
+  * What was hard to change?
   * Identify where the external libraries are imported.
 
 ## Need help?
