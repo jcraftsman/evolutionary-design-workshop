@@ -51,6 +51,9 @@ function setup_iteration
     cd ${PROJECT_DIR}
   fi
   git checkout "workshop-it${iteration_number}"
+  make clean
+  make venv
+  make install_requirements_dev
 }
 
 function take_care_of_ongoing_changes
