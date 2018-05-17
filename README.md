@@ -2,7 +2,7 @@
 
 ## Experiment deductive approach
 
-In this repo you will find all the meterials you need for "Real world Evolutionary Design with Python" hands-on.
+In this repo you will find all the materials you need for "Real world Evolutionary Design with Python" hands-on.
 
 [The slides are available here.](http://slides.com/wasselalazhar/real-world-evolutionary-design-with-python)
 
@@ -75,7 +75,7 @@ cd pictures-analyzer
    ```
 
   * You should have only one failing test. It is an acceptance test.
-  * Take a look to this test and understand what is missing.
+  * Take a look at this test and understand what is missing.
   * This test should guide your implementation.
 
 ## Iteration 2: Macro design
@@ -98,7 +98,7 @@ cd pictures-analyzer
   make tests
   ```
 
-  * Take a look to the implementation.
+  * Take a look at the implementation.
   * What do you like about this implementation?
   * What would you do better?
   * Identify where the external libraries are imported.
