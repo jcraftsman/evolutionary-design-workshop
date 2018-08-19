@@ -14,6 +14,8 @@ This application will interact with two external systems: the search engine and 
 the safe box is a secure storage service where allowed users can access to uploaded pictures.
 Search engine is
 
+![problem illustration](illustrations/problem-description.jpg)
+
 ## Iteration 1: Micro design
 
 * Time: 30 min
@@ -47,6 +49,8 @@ Search engine is
 
 > :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
+![double loop tdd](illustrations/double-loop-tdd.jpg)
+
 ## Iteration 2: Macro design
 
 * Time: 20 min
@@ -73,3 +77,5 @@ Search engine is
   * What was hard to change?
   * Identify where the external libraries are imported.
 
+![macro design](illustrations/macro-design.png)
+![macro design caption](illustrations/macro-design-caption.png)

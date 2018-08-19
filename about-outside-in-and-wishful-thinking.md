@@ -77,6 +77,8 @@ Or, you may decide to decompose it:
 Analyzer -> should fetch files in given pictures directory
 Analyzer -> should upload each file to the safe box
 
+![design decision](illustrations/design-decision.jpg)
+
 
 Did you finish all unit tests for Analyzer class ?
 Run the acceptance test, it will point the next 
