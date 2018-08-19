@@ -6,49 +6,13 @@ In this repo you will find all the materials you need for "Real world Evolutiona
 
 [The slides are available here.](http://slides.com/wasselalazhar/real-world-evolutionary-design-with-python)
 
-## Get started
+## Problem description
 
-After cloning this repo, all you need to do is to launch the script `start_workshop.sh`
+Create a simple command line application that indexes all text in pictures from a given directory.
 
-```bash
-./start_workshop.sh
-```
-
-This will generate `pictures-analyzer` project in the same directory.
-
-```bash
-evolutionary-design-workshop
-├── README.md
-├── pictures-analyzer
-│   ├── Makefile
-│   ├── README.md
-│   ├── pictures_analyzer
-│   │   ├── __init__.py
-│   │   ├── __main__.py
-│   │   ├── analyzer.py
-│   │   ├── safe_box.py
-│   │   └── search_engine.py
-│   ├── pictures_analyzer_tests
-│   │   ├── __init__.py
-│   │   └── acceptance
-│   │       ├── __init__.py
-│   │       ├── pictures
-│   │       │   └── top_secret.png
-│   │       └── test_analyzer.py
-│   ├── requirements_dev.txt
-│   └── setup.py
-└── start_workshop.sh
-```
-
-Move to the generated project, and open it using your favourite IDE.
-
-```bash
-cd pictures-analyzer
-```
-
-> Something went wrong?
->
->Take a look at "[Need help?](#need-help)" section. You're may be missing some [prerequisites](#prerequisites).
+This application will interact with two external systems: the search engine and the safe box.
+the safe box is a secure storage service where allowed users can access to uploaded pictures.
+Search engine is
 
 ## Iteration 1: Micro design
 
@@ -65,24 +29,29 @@ cd pictures-analyzer
         * RED: Write only one failing unit test at time
         * GREEN: Write only enough amount of code to make this failing test pass
         * REFACTOR: Clean up the mess you just made (Think about naming, magic values, non accidental duplication...)
-    1. In `analyzer.py`, you cannot import any external library (i.e., you can only import from `pictures_analyzer` module).
-    1. You should never modify the given acceptance test. Therefore, you can modify the setup section of this test if needed.
+    1. You should never modify the given acceptance test. Therefore, you can modify the setup section of this test if needed
+    1. In `Analyzer` class, you are not allowed to import any code (type, library, module, object, whatever...) outside its package  library
+    1. You are not allowed to add any other public methods in this class
 * Hints:
+
+  * Get the code
+
+  ```bash
+  ./start_workshop.sh
+  ```
+
   * Run all the tests
-
-   ```bash
-      make tests
-   ```
-
   * You should have only one failing test. It is an acceptance test.
   * Take a look at this test and understand what is missing.
   * This test should guide your implementation.
+
+> :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
 ## Iteration 2: Macro design
 
 * Time: 20 min
 * Goal:
-  * Think about a better way to restructure python files in packages.
+  * Think about a better way to restructure files in packages.
   * Take advantage of the test harness to refactor.
 * Hints:
   * Get the code
@@ -104,59 +73,3 @@ cd pictures-analyzer
   * What was hard to change?
   * Identify where the external libraries are imported.
 
-## Need help?
-
-### Prerequisites
-
-In this workshop you will need:
-
-* Git (obviously)
-* Python 3.5+
-* Virtualenv
-
-#### Mac OS
-
-The simplest way to install python3 and virtualenv is to rely on hombrew and pip.
-
-```bash
-brew update
-brew install python3
-pip3 install virtualenv
-```
-
-This implies that you have xcode, Homebrew and pip3 installed.
-If you miss some of these pre-requisites, you can take a look [here](https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-macos)
-for a more exhaustive setup instructions.
-
-After installation, the version of python3 on your computer should be higher than 3.5
-
-```bash
-python3 --version
-```
-
-For the iteration 2, you will also need to install [tesseract](https://github.com/tesseract-ocr):
-
-```bash
-brew install tesseract
-```
-
-#### Ubuntu
-
-Here are the instructions to install python 3.6 from PPA:
-
-```bash
-apt-get install software-properties-common python-software-properties
-add-apt-repository ppa:jonathonf/python-3.6
-# and press enter to continue.
-apt-get update
-apt-get install python3.6
-pip3 install virtualenv
-```
-
-For further details, take a look [here](https://www.rosehosting.com/blog/how-to-install-python-3-6-on-ubuntu-16-04).
-
-For the iteration 2, you will also need to install [tesseract](https://github.com/tesseract-ocr):
-
-```bash
-sudo apt-get install tesseract-ocr
-```
