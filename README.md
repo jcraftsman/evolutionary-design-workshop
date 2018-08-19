@@ -49,7 +49,7 @@ Search engine is
 
 > :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
-![double loop tdd](illustrations/double-loop-tdd.png)
+![double loop tdd](illustrations/double-loop-tdd-small.png)
 
 ## Iteration 2: Macro design
 
@@ -77,5 +77,5 @@ Search engine is
   * What was hard to change?
   * Identify where the external libraries are imported.
 
-![macro design](illustrations/macro-design.png)
-![macro design caption](illustrations/macro-design-caption.png)
+![macro design](illustrations/macro-design-small.png)
+![macro design caption](illustrations/macro-design-caption-small.png)
