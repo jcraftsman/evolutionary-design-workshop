@@ -14,7 +14,7 @@ This application will interact with two external systems: the search engine and 
 the safe box is a secure storage service where allowed users can access to uploaded pictures.
 Search engine is
 
-![problem illustration](illustrations/problem-description.jpg)
+![problem illustration](illustrations/problem-description-small.png)
 
 ## Iteration 1: Micro design
 
@@ -49,7 +49,7 @@ Search engine is
 
 > :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
-![double loop tdd](illustrations/double-loop-tdd.jpg)
+![double loop tdd](illustrations/double-loop-tdd.png)
 
 ## Iteration 2: Macro design
 
