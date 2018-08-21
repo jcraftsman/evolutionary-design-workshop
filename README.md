@@ -2,17 +2,30 @@
 
 ## Experiment deductive approach
 
-In this repo you will find all the materials you need for "Real world Evolutionary Design with Python" hands-on.
+In this repo you will find all the materials you need for "Real world Evolutionary Design" hands-on.
 
 [The slides are available here.](http://slides.com/wasselalazhar/real-world-evolutionary-design-with-python)
 
 ## Problem description
 
-Create a simple command line application that indexes all text in pictures from a given directory.
+### Goal
 
-This application will interact with two external systems: the search engine and the safe box.
-the safe box is a secure storage service where allowed users can access to uploaded pictures.
-Search engine is
+Create a simple command line application that indexes all the text in pictures from a given directory.
+Let's call it `pictures-analyzer`.
+
+By launching the following command, all pictures in `images` folder are indexed:
+
+```bash
+pictures-analyzer index --directory images
+```
+
+### Context
+
+`pictures-analyzer` will interact with two external systems: the safe box and the search engine.
+
+The safe box is a secure storage service used to upload pictures and make them available to allowed users.
+
+Search engine is a REST api that indexes picture content. To be able, to find a picture by the text it contains, `pictures-analyzer` will use the `index` api to bind the picture in the safe box and its text.
 
 ![problem illustration](illustrations/problem-description-small.png)
 
@@ -20,8 +33,8 @@ Search engine is
 
 * Time: 30 min
 * Definition of done:
-  * Make the acceptance test pass
-  * Or, at least, implement `Analyzer.index()` method
+  * Implement `Analyzer.index()` method and all its unit tests
+  * If you have enough time, make the acceptance test pass
 * Rules:
   1. Write one first unit test at the top
   1. Whenever your test or implementation needs something, create a stub
@@ -36,16 +49,16 @@ Search engine is
     1. You are not allowed to add any other public methods in this class
 * Hints:
 
-  * Get the code
+  * Get the code in your favorite programming language _(python or java)_
 
   ```bash
   ./start_workshop.sh
   ```
 
   * Run all the tests
-  * You should have only one failing test. It is an acceptance test.
-  * Take a look at this test and understand what is missing.
-  * This test should guide your implementation.
+  * You should have only one failing test. It is an acceptance test
+  * Take a look at this test and understand what is missing
+  * This test should guide your implementation
 
 > :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
