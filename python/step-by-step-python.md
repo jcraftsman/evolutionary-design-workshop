@@ -170,14 +170,129 @@ Our first unit test becomes as follows:
 
 ### Inner loop GREEN: :white_check_mark: Make it pass
 
+Does the test fail for the good reason?
+
+```bash
+AssertionError: Expected 'upload' to be called once. Called 0 times.
+```
+
+Let's take care of this.
+
+Let's write only enough amount of code to make this test pass.
+
+For instance, we can make the first assertion pass with this line of code:
+
+```python
+    def index(self, pictures_directory_path) -> None:
+        self.safe_box.upload('./top_secrets.png')
+```
+
+Yeey, it's working!
+Now, it fails for the another reason:
+
+```python
+AssertionError: Expected 'list_directory' to be called once. Called 0 times.
+```
+
+We need to call `list_directory`. Let's do it:
+
+```python
+class Analyzer(object):
+
+    def __init__(self, finder: Finder, search_engine: SearchEngine, safe_box: SafeBox):
+        self.ocr = ocr
+        self.finder = finder
+        self.safe_box = safe_box
+
+    def index(self, pictures_directory_path) -> None:
+        self.safe_box.upload('./top_secrets.png')
+        self.finder.list_directory('./pictures')
+```
+
+Our test is green! :tada:
+
+I make sure to throw an explicit exception in the methods that are not yet implemented.
+
+```python
+class Finder(object):
+    def list_directory(self, directory_path) -> List[File]:
+        raise NotImplementedError()
+```
+
+And we update the acceptance test setup with a real instance of `Finder`. No more mocks in the acceptance test. _(reminder: only external systems are mocked, in the acceptance test class)_
+
+```python
+    def setUp(self):
+        self.search_engine = Mock()
+        self.safe_box = Mock()
+        finder = Finder()
+        self.analyzer = Analyzer(finder, self.safe_box, self.safe_box)
+```
+
 ### Inner loop REFACTOR: :large_blue_circle: Clean it up
 
-### Inner loop RED: :red_circle: Next unit test
+OK, the test is green. But let's clean this mess.
 
+First, we can use the method's parameter instead of a magic value.
 
-Done with Analyzer unit tests ?
+```python
+    def index(self, pictures_directory_path) -> None:
+        self.finder.list_directory(pictures_directory_path)
+        picture_path = './top_secrets.png'
+        self.safe_box.upload(picture_path)
+```
 
-:warning: Design decision alert :warning:
+And to get rid of magic values, so far, we can extract `list_directory` result in a variable and use it.
+
+```python
+    def index(self, pictures_directory_path) -> None:
+        file_paths_in_directory = self.finder.list_directory(pictures_directory_path)
+        picture_path = next(iter(file_paths_in_directory))
+        self.safe_box.upload(picture_path)
+```
+
+Now, I'm happy! There is no more magic values.
+
+But, I would, maybe, rename some variables, class...
+
+### Inner loop RED/GREEN/REFACTOR: :red_circle::large_blue_circle::white_check_mark: Next unit tests
+
+What would you test next?
+Indexing in the search engine? Or, maybe would you write a test about a directory with more than a single file?
+
+It's up to you :wink:!
+
+Here are some tips that may be useful for the rest of this hands on:
+
+* Focus on the happy path. Don't worry about what may go wrong in corner cases. In the begining, you can mange to just throw a runtime exception (`raise NotImplementedError()`) for instance, and you will take care of it later.
+* Start with primitives or simple types, like strings for path variables.
+
+### Outer loop RED: :dart: Done with Analyzer unit tests?
+
+Did you finish all unit tests for Analyzer class ?
+Run the acceptance test, it will point the next unit test to write!
+
+For instance, in the following output, the acceptance test is telling us to implement `finder.list_directory`.
+This is why it is usual to call this kind of test a guiding test.
+
+```bash
+ERROR: test_index_should_use_search_engine_to_index_published_image_and_the_text_it_contains (acceptance.test_analyzer.TestAnalyzer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/wasselalazhar/code_repos/pictures-analyzer/pictures_analyzer_tests/acceptance/test_analyzer.py", line 34, in test_index_should_use_search_engine_to_index_published_image_and_the_text_it_contains
+    self.analyzer.index(PICTURES_DIRECTORY_PATH)
+  File "/Users/wasselalazhar/code_repos/pictures-analyzer/pictures_analyzer/analyzer.py", line 14, in index
+    file_paths_in_directory = self.finder.list_directory(pictures_directory_path)
+  File "/Users/wasselalazhar/code_repos/pictures-analyzer/pictures_analyzer/finder.py", line 6, in list_directory
+    raise NotImplementedError()
+NotImplementedError
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+```
+
+### :warning: Design alert :warning:
 
 > By writing our first failing unit test we have already made a design decision.
 >
@@ -198,13 +313,6 @@ Analyzer -> should upload each file to the safe box
 ![design decision caption](../illustrations/design-decision-caption-small.png)
 
 
-Did you finish all unit tests for Analyzer class ?
-Run the acceptance test, it will point the next 
-
-
-* Focus on the happy path to achieve. Don't worry about what may go wrong. In this case, just throw a runtime exception (`raise NotImplementedError()`) for instance.
-* Start with primitives or simple types, like strings for path variables.
-(By the way, in this acceptance test class, only external systems are mocked)
 
 
 ## Libraries
