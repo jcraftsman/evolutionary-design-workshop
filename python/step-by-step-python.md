@@ -115,7 +115,7 @@ Indeed, the acceptance test is failing because the search engine did not get cal
 
 ### Inner loop RED: :red_circle: More than a failing Unit test
 
-Now, we can create a first unit test for the analyzer class.
+Now, we can write a first unit test for the analyzer class.
 
 Let's focus on the first requirement about uploading the picture to the safe box, as described in the acceptance test:
 
@@ -131,12 +131,31 @@ The input to our command is a directory path, and the safe_box mock expects a pa
 
 ![pictures directory tree](../illustrations/pictures-directory-python.png)
 
-So, we need, somehow, to list file paths inside a directory.
+We can start writing our first unit test like this:
 
-We can choose tu use a library (built-in or external) for that, or even try to implement it, but we won't.
+```python
+    def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
+        # Given
+        picture_path = './top_secrets.png'
 
+        # When
+        self.analyzer.index('./pictures')
 
-:relieved:
+        # Then
+        self.safe_box.upload.assert_called_once_with(picture_path)
+```
+
+We still need, somehow, to list file paths inside a directory.
+
+And, we won't care about low level details in the Analyzer class.
+
+> This is where we will play with the rule 2:
+>
+> :relieved:  Whenever your test or implementation needs something, create a stub!
+
+We can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
+
+Our first unit can be like:
 
 ```python
     def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
@@ -152,13 +171,9 @@ We can choose tu use a library (built-in or external) for that, or even try to i
         self.finder.list_directory.assert_called_once_with('./pictures')
 ```
 
-I assume, the analyzer upload a picture file from the picture directory to the safe box.
-
-This first requirement can be expressed through a unit test.
-
 :warning: /!\ Design decision alert /!\
 
-> But actually there is more than one thing to check here.
+> By writing our first failing unit test we have already made a design decision.
 >
 > First, we need the analyzer to look into the files within the pictures directory.
 >
