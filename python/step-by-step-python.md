@@ -56,11 +56,9 @@ class Analyzer(object):
         pass
 ```
 
-Your starting point is the `Analyzer` class.
+The `Analyzer` class contains only one public method `index`. It's a **command** _(i.e., it doesn't return any value)_ that takes `pictures_directory_path` as unique parameter.
 
-It contains only one public method `index`. It's a **command** _(i.e., it doesn't return any value)_ that takes `pictures_directory_path` as unique parameter.
-
-### Outer loop RED: A failing acceptance test
+### Outer loop RED: :dart: A failing acceptance test
 
 Now, let's take a look at `acceptance.test_analyzer.py`:
 
@@ -127,7 +125,7 @@ Let's focus on the first requirement about uploading the picture to the safe box
         self.safe_box.upload.assert_called_once_with(PATH_TO_PICTURE_FILE)
 ```
 
-The input to our command is a directory path, and the safe_box mock expects a path to a picture file inside this directory:
+`index` takes a directory path as input. The safe_box mock expects a path to a picture file inside this directory.
 
 ![pictures directory tree](../illustrations/pictures-directory-python.png)
 
@@ -145,17 +143,16 @@ We can start writing our first unit test like this:
         self.safe_box.upload.assert_called_once_with(picture_path)
 ```
 
-We still need, somehow, to list file paths inside a directory.
+At this point, we don't care about low level details in the Analyzer class.
+But, we still need to list file paths within the directory.
 
-And, we won't care about low level details in the Analyzer class.
-
-> This is where we will play with the rule 2:
+> This is where we will play with the rule #2:
 >
 > :relieved:  Whenever your test or implementation needs something, create a stub!
 
-We can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
+So, we can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
 
-Our first unit can be like:
+Our first unit test becomes as follows:
 
 ```python
     def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
@@ -171,7 +168,16 @@ Our first unit can be like:
         self.finder.list_directory.assert_called_once_with('./pictures')
 ```
 
-:warning: /!\ Design decision alert /!\
+### Inner loop GREEN: :white_check_mark: Make it pass
+
+### Inner loop REFACTOR: :large_blue_circle: Clean it up
+
+### Inner loop RED: :red_circle: Next unit test
+
+
+Done with Analyzer unit tests ?
+
+:warning: Design decision alert :warning:
 
 > By writing our first failing unit test we have already made a design decision.
 >
