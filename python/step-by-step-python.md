@@ -89,7 +89,7 @@ In this test, external systems `safe_box` and `search_engine` are substituted by
 
 * Did the test fail for the good reason?
 
-If you got this :point_down: failing message (`AssertionError: Expected 'index' to be called once. Called 0 times.`), the answer is yes!
+If you got this failing message :point_down: (`AssertionError: Expected 'index' to be called once. Called 0 times.`), the answer is yes!
 
 ```bash
 F
@@ -125,7 +125,7 @@ Let's focus on the first requirement about uploading the picture to the safe box
         self.safe_box.upload.assert_called_once_with(PATH_TO_PICTURE_FILE)
 ```
 
-`index` takes a directory path as input. The safe_box mock expects a path to a picture file inside this directory.
+`index` takes a directory path as input. The `safe_box` mock expects a path to a picture file inside this directory.
 
 ![pictures directory tree](../illustrations/pictures-directory-python.png)
 
@@ -187,8 +187,8 @@ For instance, we can make the first assertion pass with this line of code:
         self.safe_box.upload('./top_secrets.png')
 ```
 
-Yeey, it's working!
-Now, it fails for the another reason:
+Yeey, it works!
+Now, it fails for another reason:
 
 ```python
 AssertionError: Expected 'list_directory' to be called once. Called 0 times.
@@ -211,7 +211,9 @@ class Analyzer(object):
 
 Our test is green! :tada:
 
-I make sure to throw an explicit exception in the methods that are not yet implemented.
+*NB:*
+
+Make sure to throw an explicit exception in the methods that are not yet implemented.
 
 ```python
 class Finder(object):
@@ -219,7 +221,7 @@ class Finder(object):
         raise NotImplementedError()
 ```
 
-And we update the acceptance test setup with a real instance of `Finder`. No more mocks in the acceptance test. _(reminder: only external systems are mocked, in the acceptance test class)_
+And update the acceptance test setup with a real instance of `Finder`. No more mocks in the acceptance test. _(reminder: only external systems are mocked, in the acceptance test class)_
 
 ```python
     def setUp(self):
@@ -242,7 +244,7 @@ First, we can use the method's parameter instead of a magic value.
         self.safe_box.upload(picture_path)
 ```
 
-And to get rid of magic values, so far, we can extract `list_directory` result in a variable and use it.
+And to get rid of magic values, we can extract `list_directory` result in a variable and use it.
 
 ```python
     def index(self, pictures_directory_path) -> None:
@@ -262,18 +264,18 @@ Indexing in the search engine? Or, maybe would you write a test about a director
 
 It's up to you :wink:!
 
-Here are some tips that may be useful for the rest of this hands on:
+Here are some tips that maight be useful:
 
-* Focus on the happy path. Don't worry about what may go wrong in corner cases. In the begining, you can mange to just throw a runtime exception (`raise NotImplementedError()`) for instance, and you will take care of it later.
-* Start with primitives or simple types, like strings for path variables.
+* Focus on the happy path. Don't worry about what may go wrong in corner cases. In the begining, just throw a runtime exception (`raise NotImplementedError()`). You will take care of it later if necessary
+* Start with primitives or simple types, like strings for path variables
 
 ### Outer loop RED: :dart: Done with Analyzer unit tests?
 
-Did you finish all unit tests for Analyzer class ?
+Did you finish all unit tests for Analyzer class?
 Run the acceptance test, it will point the next unit test to write!
 
 For instance, in the following output, the acceptance test is telling us to implement `finder.list_directory`.
-This is why it is usual to call this kind of test a guiding test.
+This is why we call it a guiding test.
 
 ```bash
 ERROR: test_index_should_use_search_engine_to_index_published_image_and_the_text_it_contains (acceptance.test_analyzer.TestAnalyzer)
@@ -298,8 +300,8 @@ Ran 1 test in 0.001s
 
 In the first unit test, we have:
 
-* introduced an abstraction about file paths in a directory.
-* defined the collaboration between the Analyzer, the safe box and the file finder.
+* introduced an abstraction about file paths in a directory
+* defined the collaboration between the Analyzer, the safe box and the file finder
 
 From the `Analyzer`point of view, we have choosed to decompose the upload operation into 2 pieces:
 
