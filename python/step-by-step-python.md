@@ -314,11 +314,6 @@ The result of this operation will be incrementally refined through the next test
 
 ![design decision caption](../illustrations/design-decision-caption-small.png)
 
-## Libraries
-
-unittest
-how to create a mock/stub
-
 ## Need help?
 
 ### Prerequisites
@@ -375,3 +370,9 @@ For the iteration 2, you will also need to install [tesseract](https://github.co
 ```bash
 sudo apt-get install tesseract-ocr
 ```
+
+### Libraries
+
+* [unittest](https://docs.python.org/3/library/unittest.html)
+* [unittest mock object library](https://docs.python.org/3/library/unittest.mock.html#unittest.mock.Mock.assert_called)
+* [typing in python: support for type hints](https://docs.python.org/3/library/typing.html)
