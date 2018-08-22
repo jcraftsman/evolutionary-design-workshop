@@ -292,30 +292,30 @@ Ran 1 test in 0.001s
 
 ```
 
-### :warning: Design alert :warning:
+## :warning: Design alert :warning:
 
 > By writing our first failing unit test we have already made a design decision.
->
-> First, we need the analyzer to look into the files within the pictures directory.
->
-> Then, we need to upload them into the safe box.
 
-We can choose to take this requirement as a whole:
-Analayzer should 
+In the first unit test, we have:
 
-Or, you may decide to decompose it:
+* introduced an abstraction about file paths in a directory.
+* defined the collaboration between the Analyzer, the safe box and the file finder.
 
-Analyzer -> should fetch files in given pictures directory
-Analyzer -> should upload each file to the safe box
+From the `Analyzer`point of view, we have choosed to decompose the upload operation into 2 pieces:
+
+1. Fetch files in given pictures directory
+2. Upload each file to the safe box
+
+An alternative would be to take the upload operation as a whole.
+In this case, we introduce an abstraction that takes a directory as parameter.
+The result of this operation will be incrementally refined through the next tests.
 
 ![design decision](../illustrations/design-decision-small.png)
 
 ![design decision caption](../illustrations/design-decision-caption-small.png)
 
-
-
-
 ## Libraries
+
 unittest
 how to create a mock/stub
 
