@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 readonly SCRIPT_DIR=$( cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd );
+readonly ROOT_SCRIPT_DIR="${SCRIPT_DIR}/..";
 readonly PROJECT_NAME="pictures-analyzer-java"
-readonly PROJECT_DIR="${SCRIPT_DIR}/${PROJECT_NAME}"
+readonly PROJECT_DIR="${ROOT_SCRIPT_DIR}/${PROJECT_NAME}"
 readonly GIT_REPOSITORY_URL="https://github.com/jcraftsman/${PROJECT_NAME}.git"
 readonly DEFAULT_ITERATION_NUMBER=1
 
