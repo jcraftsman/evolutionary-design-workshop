@@ -111,7 +111,9 @@ FAILED (failures=1)
 
 Indeed, the acceptance test is failing because the search engine did not get called during `Analyze.index` command.
 
-### Inner loop RED: :red_circle: First Unit test
+## Inner loop: First unit test
+
+### :red_circle: RED
 
 Now, we can write a first unit test for the analyzer class.
 
@@ -143,7 +145,7 @@ We can start writing our first unit test like this:
         self.safe_box.upload.assert_called_once_with(picture_path)
 ```
 
-### Inner loop GREEN: :white_check_mark: Make it pass
+### :white_check_mark: GREEN: Make it pass
 
 Does the test fail for the good reason?
 
@@ -171,7 +173,7 @@ In this implementation, the `safe_box` was injected directly in the analyzer:
         self.safe_box = safe_box
 ```
 
-### Inner loop REFACTOR: :large_blue_circle: Clean it up
+### :large_blue_circle: REFACTOR: Clean it up
 
 We can explicitly introduce the notion of picture file path in our implementation:
 
@@ -181,7 +183,13 @@ We can explicitly introduce the notion of picture file path in our implementatio
         self.safe_box.upload(picture_file_path)
 ```
 
-### Inner loop RED: :red_circle: wishful thinking
+But the value of this picture path is still magical. And extracting it in a variable doesn't make up for this.
+
+The good news is that both notions of pictures directory path and picture file path are explicit in our implementation.
+
+To stop faking it, we need to find to get this file path from the directory path, somehow. But first let's express this in our unit test.
+
+### :red_circle: RED: wishful thinking
 
 At this point, we don't care about low level details in the Analyzer class.
 But, we still need to list file paths within the directory.
@@ -208,7 +216,7 @@ Our first unit test becomes as follows:
         self.finder.list_directory.assert_called_once_with('/pictures')
 ```
 
-### Inner loop GREEN: :white_check_mark: make it pass
+### :white_check_mark: GREEN: make it pass
 
 Now, it fails for another reason:
 
@@ -253,7 +261,7 @@ And update the acceptance test setup with a real instance of `Finder`. No more m
         self.analyzer = Analyzer(finder, self.safe_box, self.safe_box)
 ```
 
-### Inner loop REFACTOR: :large_blue_circle: Clean it up, again
+### :large_blue_circle: REFACTOR: Clean it up, again
 
 OK, the test is green. But let's clean this mess.
 

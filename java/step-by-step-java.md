@@ -221,7 +221,7 @@ Yeey, it works!
 Now, it fails for another reason:
 
 ```java
-org.mockito.exceptions.misusing.UnnecessaryStubbingException: 
+org.mockito.exceptions.misusing.UnnecessaryStubbingException:
 Unnecessary stubbings detected.
 Clean & maintainable test code requires zero unnecessary code.
 Following stubbings are unnecessary (click to navigate to relevant line of code):
