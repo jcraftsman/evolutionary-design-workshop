@@ -296,8 +296,9 @@ It's up to you :wink:!
 
 Here are some tips that maight be useful:
 
-* Focus on the happy path. Don't worry about what could go wrong in corner cases. In the begining, just throw a runtime exception (`raise NotImplementedError()`). You will take care of it later if necessary
 * Start with primitives or simple types, like strings for path variables
+* Introduce only one concept at time
+* Focus on the happy path. Don't worry about what could go wrong in corner cases. In the begining, just throw a runtime exception (`raise NotImplementedError()`). You will take care of it later if necessary
 
 ### Outer loop RED: :dart: Done with Analyzer unit tests?
 
