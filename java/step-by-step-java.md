@@ -14,27 +14,27 @@ This will generate `pictures-analyzer` project in the same directory:
 evolutionary-design-workshop
 ├── README.md
 ├── pictures-analyzer-java
-    ├── build.gradle
-    ├── gradle
-    ├── gradlew
-    ├── gradlew.bat
-    ├── settings.gradle
-    └── src
-        ├── main
-        │   └── java
-        │       └── org
-        │           └── evolutionary
-        │               ├── Analyzer.java
-        │               ├── PictureContent.java
-        │               ├── SafeBox.java
-        │               └── SearchEngine.java
-        └── test
-            ├── java
-            │   └── feature
-            │       └── IndexPictureContentFeature.java
-            └── resources
-                └── pictures
-                    └── top_secret.png
+│   ├── build.gradle
+│   ├── gradle
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── settings.gradle
+│   └── src
+│       ├── main
+│       │   └── java
+│       │       └── org
+│       │           └── evolutionary
+│       │               ├── Analyzer.java
+│       │               ├── PictureContent.java
+│       │               ├── SafeBox.java
+│       │               └── SearchEngine.java
+│       └── test
+│           ├── java
+│           │   └── feature
+│           │       └── IndexPictureContentFeature.java
+│           └── resources
+│               └── pictures
+│                   └── top_secret.png
 └── start_workshop.sh
 ```
 
@@ -64,7 +64,7 @@ The `Analyzer` class contains only one public method `index`. It's a **command**
 
 ### Outer loop RED: :dart: A failing acceptance test
 
-Now, let's take a look at `feature.IndexPictureContentFeature.java`:
+Now, let's take a look at the acceptance test `feature.IndexPictureContentFeature.java`:
 
 ```java
     @Test
@@ -123,7 +123,9 @@ Actually, there were zero interactions with this mock.
 
 Indeed, the acceptance test is failing because the search engine did not get called during `Analyze.index` command.
 
-### Inner loop RED: :red_circle: More than a failing Unit test
+## Inner loop: First unit test
+
+### :red_circle: RED
 
 Now, we can write a first unit test for the analyzer class.
 
@@ -139,7 +141,7 @@ Let's focus on the first requirement about uploading the picture to the safe box
 
 `index` takes a directory path as input. The `safeBox` mock expects a path to a picture file inside this directory.
 
-![pictures directory tree](../illustrations/pictures-directory-python.png)
+![pictures directory tree](../illustrations/pictures-directory-java.png)
 
 We can start writing our first unit test like this:
 
@@ -157,35 +159,7 @@ We can start writing our first unit test like this:
     }
 ```
 
-At this point, we don't care about low level details in the Analyzer class.
-But, we still need to list file paths within the directory.
-
-> This is where we will play with the rule #2:
->
-> :relieved:  Whenever your test or implementation needs something, create a stub!
-
-So, we can introduce a "file finder" (`finder = mock(Finder.class);`) that will provide us with this abstraction.
-
-Our first unit test becomes as follows:
-
-```java
-    @Test
-    void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
-        // Given
-        String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
-                .willReturn(allPathsInPicturesDirectory);
-
-        // When
-        analyzer.index(PICTURES_DIRECTORY_PATH);
-
-        // Then
-        then(safeBox).should().upload(pathToPicture);
-    }
-```
-
-### Inner loop GREEN: :white_check_mark: Make it pass
+### :white_check_mark: GREEN: Make it pass
 
 Does the test fail for the good reason?
 
@@ -218,6 +192,66 @@ For instance, we can make the first assertion pass with this line of code:
 ```
 
 Yeey, it works!
+
+In this implementation, the `safeBox` was injected directly in the analyzer:
+
+```java
+    private final SafeBox safeBox;
+
+    public Analyzer(SafeBox safeBox) {
+        this.safeBox = safeBox;
+    }
+```
+
+### :large_blue_circle: REFACTOR: Clean it up
+
+We can explicitly introduce the notion of picture file path in our implementation:
+
+```java
+    public void index(String picturesDirectoryPath) {
+        String pictureFilePath = "/users/me/pictures/top-secret.jpeg";
+        safeBox.upload(pictureFilePath);
+    }
+```
+
+But the value of this picture path is still magical. And extracting it in a variable doesn't make up for this.
+
+The good news is that both notions of pictures directory path and picture file path are explicit in our implementation.
+
+To stop faking it, we need to get this file path from the directory path, somehow. But first let's express this in our unit test.
+
+### :red_circle: RED: Wishful thinking
+
+At this point, we don't care about low level details in the Analyzer class.
+But, we still need to list file paths within the directory.
+
+> This is where we will play with the rule #2:
+>
+> :relieved:  Whenever your test or implementation needs something, create a stub!
+
+So, we can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
+
+Our first unit test becomes as follows:
+
+```java
+    @Test
+    void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
+        // Given
+        String pathToPicture = "/users/me/pictures/top-secret.jpeg";
+        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
+        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                .willReturn(allPathsInPicturesDirectory);
+
+        // When
+        analyzer.index(PICTURES_DIRECTORY_PATH);
+
+        // Then
+        then(safeBox).should().upload(pathToPicture);
+    }
+```
+
+### :white_check_mark: GREEN: Make it pass, again
+
 Now, it fails for another reason:
 
 ```java
@@ -227,7 +261,6 @@ Clean & maintainable test code requires zero unnecessary code.
 Following stubbings are unnecessary (click to navigate to relevant line of code):
   1. -> at org.evolutionary.AnalyzerTest.should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file(AnalyzerTest.java:46)
 Please remove unnecessary stubbings or use 'lenient' strictness. More info: javadoc for UnnecessaryStubbingException class.
-
 ```
 
 We need to call `listFilePaths`. Let's do it:
@@ -277,7 +310,7 @@ And update the acceptance test setup with a real instance of `Finder`. No more m
     }
 ```
 
-### Inner loop REFACTOR: :large_blue_circle: Clean it up
+### :large_blue_circle: REFACTOR: Clean it up, again
 
 OK, the test is green. But let's clean this mess.
 
@@ -310,10 +343,11 @@ Indexing in the search engine? Or maybe, would you write a test about a director
 
 It's up to you :wink:!
 
-Here are some tips that maight be useful:
+Here are some tips that might be useful:
 
-* Focus on the happy path. Don't worry about what could go wrong in corner cases. In the begining, just throw a runtime exception (`throw new UnsupportedOperationException();`). You will take care of it later if necessary
 * Start with primitives or simple types, like strings for path variables
+* Introduce only one concept at time
+* Focus on the happy path. Don't worry about what could go wrong in corner cases. In the begining, just throw a runtime exception (`throw new UnsupportedOperationException();`). You will take care of it later if necessary
 
 ### Outer loop RED: :dart: Done with Analyzer unit tests?
 
@@ -337,9 +371,9 @@ java.lang.UnsupportedOperationException
 In the first unit test, we have:
 
 * introduced an abstraction about file paths in a directory
-* defined the collaboration between the Analyzer, the safe box and the file finder
+* defined the collaboration between the `Analyzer`, the safe box and the file finder
 
-From the `Analyzer`point of view, we have choosed to decompose the upload operation into 2 pieces:
+From the `Analyzer`point of view, we have chosen to decompose the upload operation into 2 pieces:
 
 1. Fetch files in given pictures directory
 2. Upload each file to the safe box
