@@ -187,9 +187,9 @@ But the value of this picture path is still magical. And extracting it in a vari
 
 The good news is that both notions of pictures directory path and picture file path are explicit in our implementation.
 
-To stop faking it, we need to find to get this file path from the directory path, somehow. But first let's express this in our unit test.
+To stop faking it, we need to get this file path from the directory path, somehow. But first let's express this in our unit test.
 
-### :red_circle: RED: wishful thinking
+### :red_circle: RED: Wishful thinking
 
 At this point, we don't care about low level details in the Analyzer class.
 But, we still need to list file paths within the directory.
@@ -216,7 +216,7 @@ Our first unit test becomes as follows:
         self.finder.list_directory.assert_called_once_with('/pictures')
 ```
 
-### :white_check_mark: GREEN: make it pass
+### :white_check_mark: GREEN: Make it pass, again
 
 Now, it fails for another reason:
 
@@ -332,9 +332,9 @@ Ran 1 test in 0.001s
 In the first unit test, we have:
 
 * introduced an abstraction about file paths in a directory
-* defined the collaboration between the Analyzer, the safe box and the file finder
+* defined the collaboration between the `Analyzer`, the safe box and the file finder
 
-From the `Analyzer`point of view, we have choosed to decompose the upload operation into 2 pieces:
+From the `Analyzer`point of view, we have chosen to decompose the upload operation into 2 pieces:
 
 1. Fetch files in given pictures directory
 2. Upload each file to the safe box
