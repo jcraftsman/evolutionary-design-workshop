@@ -244,7 +244,7 @@ First, we can use the method's parameter instead of a magic value.
         self.safe_box.upload(picture_path)
 ```
 
-And to get rid of magic values, we can extract `list_directory` result in a variable and use it.
+And, to get rid of magic values, we can extract `list_directory` result in a variable and use it.
 
 ```python
     def index(self, pictures_directory_path) -> None:
@@ -260,13 +260,13 @@ But, I would, maybe, rename some variables, class...
 ### Inner loop RED/GREEN/REFACTOR: :red_circle::large_blue_circle::white_check_mark: Next unit tests
 
 What would you test next?
-Indexing in the search engine? Or, maybe would you write a test about a directory with more than a single file?
+Indexing in the search engine? Or maybe, would you write a test about a directory with more than a single file?
 
 It's up to you :wink:!
 
 Here are some tips that maight be useful:
 
-* Focus on the happy path. Don't worry about what may go wrong in corner cases. In the begining, just throw a runtime exception (`raise NotImplementedError()`). You will take care of it later if necessary
+* Focus on the happy path. Don't worry about what could go wrong in corner cases. In the begining, just throw a runtime exception (`raise NotImplementedError()`). You will take care of it later if necessary
 * Start with primitives or simple types, like strings for path variables
 
 ### Outer loop RED: :dart: Done with Analyzer unit tests?
