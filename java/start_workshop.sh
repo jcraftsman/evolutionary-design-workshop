@@ -26,7 +26,7 @@ function main
   echo ""
   echo "****************************************************************************************"
   echo ""
-  echo "You're all set! Have fun with 'Real world Evolutionary Design with Python' workshop! ;-)"
+  echo "You're all set! Have fun with 'Real world Evolutionary Design with Java' workshop! ;-)"
   echo ""
   echo "****************************************************************************************"
   echo ""
