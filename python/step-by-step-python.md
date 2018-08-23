@@ -111,7 +111,7 @@ FAILED (failures=1)
 
 Indeed, the acceptance test is failing because the search engine did not get called during `Analyze.index` command.
 
-### Inner loop RED: :red_circle: More than a failing Unit test
+### Inner loop RED: :red_circle: First Unit test
 
 Now, we can write a first unit test for the analyzer class.
 
@@ -134,38 +134,13 @@ We can start writing our first unit test like this:
 ```python
     def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
         # Given
-        picture_path = './top_secrets.png'
+        picture_path = '/pictures/top_secrets.png'
 
         # When
-        self.analyzer.index('./pictures')
+        self.analyzer.index('/pictures')
 
         # Then
         self.safe_box.upload.assert_called_once_with(picture_path)
-```
-
-At this point, we don't care about low level details in the Analyzer class.
-But, we still need to list file paths within the directory.
-
-> This is where we will play with the rule #2:
->
-> :relieved:  Whenever your test or implementation needs something, create a stub!
-
-So, we can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
-
-Our first unit test becomes as follows:
-
-```python
-    def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
-        # Given
-        picture_path = './top_secrets.png'
-        self.finder.list_directory.return_value = [picture_path]
-
-        # When
-        self.analyzer.index('./pictures')
-
-        # Then
-        self.safe_box.upload.assert_called_once_with(picture_path)
-        self.finder.list_directory.assert_called_once_with('./pictures')
 ```
 
 ### Inner loop GREEN: :white_check_mark: Make it pass
@@ -184,10 +159,57 @@ For instance, we can make the first assertion pass with this line of code:
 
 ```python
     def index(self, pictures_directory_path) -> None:
-        self.safe_box.upload('./top_secrets.png')
+        self.safe_box.upload('/pictures/top_secrets.png')
 ```
 
 Yeey, it works!
+
+In this implementation, the `safe_box` was injected directly in the analyzer:
+
+```python
+    def __init__(self, safe_box: SafeBox):
+        self.safe_box = safe_box
+```
+
+### Inner loop REFACTOR: :large_blue_circle: Clean it up
+
+We can explicitly introduce the notion of picture file path in our implementation:
+
+```python
+    def index(self, pictures_directory_path) -> None:
+        picture_file_path = '/pictures/top_secrets.png'
+        self.safe_box.upload(picture_file_path)
+```
+
+### Inner loop RED: :red_circle: wishful thinking
+
+At this point, we don't care about low level details in the Analyzer class.
+But, we still need to list file paths within the directory.
+
+> This is where we will play with the rule #2:
+>
+> :relieved:  Whenever your test or implementation needs something, create a stub!
+
+So, we can introduce a file_finder (`self.finder = Mock()`) that will provide us with this abstraction.
+
+Our first unit test becomes as follows:
+
+```python
+    def test_index_should_upload_a_file_to_safebox_when_there_is_one_file_in_directory(self):
+        # Given
+        picture_path = '/pictures/top_secrets.png'
+        self.finder.list_directory.return_value = [picture_path]
+
+        # When
+        self.analyzer.index('/pictures')
+
+        # Then
+        self.safe_box.upload.assert_called_once_with(picture_path)
+        self.finder.list_directory.assert_called_once_with('/pictures')
+```
+
+### Inner loop GREEN: :white_check_mark: make it pass
+
 Now, it fails for another reason:
 
 ```python
@@ -205,8 +227,8 @@ class Analyzer(object):
         self.safe_box = safe_box
 
     def index(self, pictures_directory_path) -> None:
-        self.safe_box.upload('./top_secrets.png')
-        self.finder.list_directory('./pictures')
+        self.safe_box.upload('/pictures/top_secrets.png')
+        self.finder.list_directory('/pictures')
 ```
 
 Our test is green! :tada:
@@ -231,7 +253,7 @@ And update the acceptance test setup with a real instance of `Finder`. No more m
         self.analyzer = Analyzer(finder, self.safe_box, self.safe_box)
 ```
 
-### Inner loop REFACTOR: :large_blue_circle: Clean it up
+### Inner loop REFACTOR: :large_blue_circle: Clean it up, again
 
 OK, the test is green. But let's clean this mess.
 
@@ -240,7 +262,7 @@ First, we can use the method's parameter instead of a magic value.
 ```python
     def index(self, pictures_directory_path) -> None:
         self.finder.list_directory(pictures_directory_path)
-        picture_path = './top_secrets.png'
+        picture_path = '/pictures/top_secrets.png'
         self.safe_box.upload(picture_path)
 ```
 
