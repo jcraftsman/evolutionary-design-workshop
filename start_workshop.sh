@@ -6,7 +6,7 @@ function main
 {
   selected_language=$(ask_language)
   workshop_starter_script="${SCRIPT_DIR}/${selected_language}/start_workshop.sh"
-  $(bash ${workshop_starter_script} $@)
+  $(bash ${workshop_starter_script} $1)
 }
 
 function ask_language() {
