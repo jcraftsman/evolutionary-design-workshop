@@ -294,7 +294,7 @@ Indexing in the search engine? Or maybe, would you write a test about a director
 
 It's up to you :wink:!
 
-Here are some tips that maight be useful:
+Here are some tips that might be useful:
 
 * Start with primitives or simple types, like strings for path variables
 * Introduce only one concept at time
