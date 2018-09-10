@@ -415,67 +415,57 @@ sudo apt-get install tesseract-ocr
 
 #### Lombok _(to reduce verbosity)_
 
-[Documentation](https://projectlombok.org/features/all)
+* [Documentation](https://projectlombok.org/features/all)
+* Configure IntelliJ:
+  1. Install [lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
+  1. Enable annotation processing (find the action _cmd+Shift+A_)
 
-Configure IntelliJ:
+  ![enable annotation processing action](../illustrations/enable-annotation-processing.png)
 
-1. Install [lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
-1. Enable annotation processing (find the action _cmd+Shift+A_)
-
-![enable annotation processing action](../illustrations/enable-annotation-processing.png)
-
-![enable annotation processing menu](../illustrations/annotation-processing-enabled.png)
+  ![enable annotation processing menu](../illustrations/annotation-processing-enabled.png)
 
 #### Junit 5 _(to run tests)_
 
-[Documentation](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
+* [Documentation](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
 
 #### AssertJ _(to write fluent assertions)_
 
-[Documentation](http://joel-costigliola.github.io/assertj)
+* [Documentation](http://joel-costigliola.github.io/assertj)
 
 #### Mockito _(for mocking and stubbing: to isolate the unit under test)_
 
-[Documentation](http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html)
+* [Documentation](http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html)
+* Example of unit test class setup **using mockito annotations**:
 
-Example of unit test class setup **using mockito annotations**:
-
-```java
-@ExtendWith(MockitoExtension.class)
-class AnalyzerTest {
-
-    private static final String PICTURES_DIRECTORY_PATH = "/users/me/pictures";
-
-    @InjectMocks
-    private Analyzer analyzer;
-
-    @Mock
-    private Finder finder;
-    @Mock
-    private SafeBox safeBox;
-    @Mock
-    private SearchEngine searchEngine;
-
-    @BeforeEach
-    void setUp() {
-        analyzer = new Analyzer(finder, searchEngine, safeBox);
-    }
-
-    @Test
-    void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
-        // Given
-        String pathToPicture = "/users/me/pictures/top-secret.jpeg";
-        List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
-        given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
-                .willReturn(allPathsInPicturesDirectory);
-
-        // When
-        analyzer.index(PICTURES_DIRECTORY_PATH);
-
-        // Then
-        then(safeBox).should().upload(pathToPicture);
-    }
-}
-```
-
-* assertJ
+  ```java
+  @ExtendWith(MockitoExtension.class)
+  class AnalyzerTest {
+  
+      private static final String PICTURES_DIRECTORY_PATH = "/users/me/pictures";
+  
+      @InjectMocks
+      private Analyzer analyzer;
+  
+      @Mock
+      private Finder finder;
+      @Mock
+      private SafeBox safeBox;
+      @Mock
+      private SearchEngine searchEngine;
+  
+      @Test
+      void should_upload_one_file_to_the_safeBox_when_the_pictures_directory_contains_only_one_picture_file() {
+          // Given
+          String pathToPicture = "/users/me/pictures/top-secret.jpeg";
+          List<String> allPathsInPicturesDirectory = singletonList(pathToPicture);
+          given(finder.listFilePaths(PICTURES_DIRECTORY_PATH))
+                  .willReturn(allPathsInPicturesDirectory);
+  
+          // When
+          analyzer.index(PICTURES_DIRECTORY_PATH);
+  
+          // Then
+          then(safeBox).should().upload(pathToPicture);
+      }
+  }
+  ```
