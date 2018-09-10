@@ -413,19 +413,28 @@ sudo apt-get install tesseract-ocr
 
 ### Libraries
 
-#### Lombok
+#### Lombok _(to reduce verbosity)_
 
 [Documentation](https://projectlombok.org/features/all)
 
-#### Junit 5
+Configure IntelliJ:
+
+1. Install [lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok-plugin)
+1. Enable annotation processing (find the action _cmd+Shift+A_)
+
+![enable annotation processing action](../illustrations/enable-annotation-processing.png)
+
+![enable annotation processing menu](../illustrations/annotation-processing-enabled.png)
+
+#### Junit 5 _(to run tests)_
 
 [Documentation](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
 
-#### AssertJ
+#### AssertJ _(to write fluent assertions)_
 
 [Documentation](http://joel-costigliola.github.io/assertj)
 
-#### Mockito
+#### Mockito _(for mocking and stubbing: to isolate the unit under test)_
 
 [Documentation](http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html)
 
