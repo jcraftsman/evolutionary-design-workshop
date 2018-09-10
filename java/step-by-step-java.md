@@ -413,12 +413,23 @@ sudo apt-get install tesseract-ocr
 
 ### Libraries
 
-* java 8
-* lombok
-* junit 5
-* mockito
+#### Lombok
 
-Example of unit test class setup using mockito annotations:
+[Documentation](https://projectlombok.org/features/all)
+
+#### Junit 5
+
+[Documentation](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
+
+#### AssertJ
+
+[Documentation](http://joel-costigliola.github.io/assertj)
+
+#### Mockito
+
+[Documentation](http://static.javadoc.io/org.mockito/mockito-core/2.22.0/org/mockito/Mockito.html)
+
+Example of unit test class setup **using mockito annotations**:
 
 ```java
 @ExtendWith(MockitoExtension.class)
