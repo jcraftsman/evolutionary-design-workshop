@@ -40,25 +40,26 @@ Search engine is a REST api that indexes picture content. To be able, to find a 
   1. Whenever your test or implementation needs something, create a stub
   1. Write the next unit test until you reach the bottom layer
 * Constraints:
-    1. TDD:
-        * RED: Write only one failing unit test at time
-        * GREEN: Write only enough amount of code to make this failing test pass
-        * REFACTOR: Clean up the mess you just made (Think about naming, magic values, non accidental duplication...)
-    1. You should never modify the given acceptance test. Therefore, you can modify the setup section of this test if needed
-    1. In `Analyzer` class, you are not allowed to import any code (type, library, module, object, whatever...) outside its package  library
-    1. You are not allowed to add any other public methods in this class
-* Get started:
+  1. TDD:
+      * RED: Write only one failing unit test at time
+      * GREEN: Write only enough amount of code to make this failing test pass
+      * REFACTOR: Clean up the mess you just made (Think about naming, magic values, non accidental duplication...)
+  1. You should never modify the given acceptance test. Therefore, you can modify the setup section of this test if needed
+  1. In `Analyzer` class, you are not allowed to import any code (type, library, module, object, whatever...) outside its package  library
+  1. You are not allowed to add any other public methods in this class
 
-  * Get the code in your favorite programming language _(python or java)_
+### Get started
+
+* Get the code in your favorite programming language _(python or java)_
 
   ```bash
   ./start_workshop.sh
   ```
 
-  * Run all the tests
-  * You should have only one failing test. It is an acceptance test
-  * Take a look at this test and understand what is missing
-  * This test should guide your implementation
+* Run all the tests
+* You should have only one failing test. It is an acceptance test
+* Take a look at this test and understand what is missing
+* This test should guide your implementation
 
 > :bulb: Take a look at the step by step instructions for [python](python/step-by-step-python.md) and [java](java/step-by-step-java.md).
 
@@ -75,15 +76,9 @@ Search engine is a REST api that indexes picture content. To be able, to find a 
 
   ```bash
   ./start_workshop.sh 2
-  cd pictures-analyzer
   ```
 
-  * Now the acceptance test is passing.
-
-  ```bash
-  make tests
-  ```
-
+  * Now, the **acceptance test is passing**.
   * Take a look at the implementation.
   * What do you like about this implementation?
   * What would you do better?
