@@ -47,7 +47,7 @@ Search engine is a REST api that indexes picture content. To be able, to find a 
     1. You should never modify the given acceptance test. Therefore, you can modify the setup section of this test if needed
     1. In `Analyzer` class, you are not allowed to import any code (type, library, module, object, whatever...) outside its package  library
     1. You are not allowed to add any other public methods in this class
-* Hints:
+* Get started:
 
   * Get the code in your favorite programming language _(python or java)_
 
