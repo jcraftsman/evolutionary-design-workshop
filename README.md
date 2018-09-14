@@ -4,7 +4,7 @@
 
 In this repo you will find all the materials you need for "Real world Evolutionary Design" hands-on.
 
-[The slides are available here.](http://slides.com/wasselalazhar/real-world-evolutionary-design-with-python)
+[The slides are available here.](https://slides.com/wasselalazhar/real-world-evolutionary-design)
 
 ## Problem description
 
